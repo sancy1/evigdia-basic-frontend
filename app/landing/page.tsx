@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -9,6 +8,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
+import { LandingHeader } from "@/components/layout/header"
+import { LandingFooter } from "@/components/layout/footer"
+
 import {
   Sparkles,
   Bot,
@@ -26,6 +28,9 @@ import {
 } from "lucide-react"
 import { toast } from "@/hooks/use-toast"
 import { cn } from "@/lib/utils"
+import { registerUser } from "@/lib/api/auth"
+import { useRouter } from "next/navigation"
+import { PasswordStrengthMeter } from "@/components/auth/PasswordStrengthMeter"
 
 const features = [
   {
@@ -88,6 +93,7 @@ export default function LandingPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [authMode, setAuthMode] = useState<"signin" | "signup">("signin")
+  const router = useRouter()
 
   const [signInData, setSignInData] = useState({
     email: "",
@@ -95,12 +101,27 @@ export default function LandingPage() {
   })
 
   const [signUpData, setSignUpData] = useState({
-    firstName: "",
-    lastName: "",
+    username: "",
     email: "",
     password: "",
     confirmPassword: "",
   })
+
+  // Load saved form data from localStorage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedFormData = localStorage.getItem('signUpFormData')
+      if (savedFormData) {
+        const parsedData = JSON.parse(savedFormData)
+        setSignUpData(prev => ({
+          ...prev,
+          username: parsedData.username || '',
+          email: parsedData.email || '',
+          // Don't restore passwords for security
+        }))
+      }
+    }
+  }, [])
 
   const nextFeature = () => {
     setCurrentFeature((prev) => (prev + 1) % features.length)
@@ -130,6 +151,7 @@ export default function LandingPage() {
     setIsLoading(false)
   }
 
+
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -144,21 +166,37 @@ export default function LandingPage() {
 
     setIsLoading(true)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    try {
+      const payload = {
+        username: signUpData.username,
+        email: signUpData.email,
+        password: signUpData.password,
+        confirm_password: signUpData.confirmPassword,
+      }
 
-    // Set authentication status
-    localStorage.setItem("isAuthenticated", "true")
+      const response = await registerUser(payload)
 
-    toast({
-      title: "Account created!",
-      description: "Welcome to AI Builder. You can now start building amazing projects.",
-    })
+      // Check if the response indicates success
+      if (response.status === "success" || response.user) {
+        // Redirect to success page with user details
+        window.location.href = `/auth/registration-success?email=${encodeURIComponent(signUpData.email)}&username=${encodeURIComponent(signUpData.username)}`
+      } else {
+        // Handle cases where the API returns success but with unexpected format
+        throw new Error(response.message || "Registration completed but with unexpected response")
+      }
 
-    // Redirect to main app
-    window.location.href = "/"
-    setIsLoading(false)
+    } catch (error: any) {
+      console.error("Registration error:", error)
+      toast({
+        title: "Registration Failed",
+        description: error.message || "An error occurred during registration. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
+
 
   const handleGoogleAuth = async () => {
     setIsLoading(true)
@@ -190,62 +228,9 @@ export default function LandingPage() {
   }, [])
 
   return (
-    // <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-    //   {/* Header */}
-    //   <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-    //     <div className="container mx-auto px-4 py-4">
-    //       <div className="flex items-center justify-between">
-    //         <div className="flex items-center gap-3">
-    //           <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
-    //             <Sparkles className="h-6 w-6 text-white" />
-    //           </div>
-    //           <div>
-    //             <h1 className="text-xl font-bold">AI Builder</h1>
-    //             <Badge variant="secondary" className="text-xs">
-    //               v1.0.0
-    //             </Badge>
-    //           </div>
-    //         </div>
-    //         <div className="flex items-center gap-4">
-    //           <Button variant="ghost" onClick={() => setAuthMode("signin")}>
-    //             Sign In
-    //           </Button>
-    //           <Button onClick={() => setAuthMode("signup")}>Get Started</Button>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </header>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
 
-
-            <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-          {/* Header */}
-          <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-            <div className="container mx-auto px-4 py-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
-                    <Sparkles className="h-6 w-6 text-white" />
-                  </div>
-                  {/* This div controls the layout of the title and badge */}
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2"> {/* Added responsive flex classes and gap */}
-                    <h1 className="text-xl font-bold">AI Builder</h1>
-                    {/* Separator - hidden on mobile, inline on sm+ */}
-                    <span className="hidden sm:inline text-gray-400">|</span> {/* Added separator */}
-                    <Badge variant="secondary" className="text-xs">
-                      v1.0.0
-                    </Badge>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <Button variant="ghost" onClick={() => setAuthMode("signin")}>
-                    Sign In
-                  </Button>
-                  <Button onClick={() => setAuthMode("signup")}>Get Started</Button>
-                </div>
-              </div>
-            </div>
-          </header>
-
+      <LandingHeader />
 
       <div className="container mx-auto px-4 py-12">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -359,27 +344,15 @@ export default function LandingPage() {
 
                   <TabsContent value="signup" className="space-y-4 mt-6">
                     <form onSubmit={handleSignUp} className="space-y-4">
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="firstName">First Name</Label>
-                          <Input
-                            id="firstName"
-                            placeholder="John"
-                            value={signUpData.firstName}
-                            onChange={(e) => setSignUpData((prev) => ({ ...prev, firstName: e.target.value }))}
-                            required
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="lastName">Last Name</Label>
-                          <Input
-                            id="lastName"
-                            placeholder="Doe"
-                            value={signUpData.lastName}
-                            onChange={(e) => setSignUpData((prev) => ({ ...prev, lastName: e.target.value }))}
-                            required
-                          />
-                        </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="signup-username">Username</Label>
+                        <Input
+                          id="signup-username"
+                          placeholder="john_doe"
+                          value={signUpData.username}
+                          onChange={(e) => setSignUpData((prev) => ({ ...prev, username: e.target.value }))}
+                          required
+                        />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="signup-email">Email</Label>
@@ -413,6 +386,7 @@ export default function LandingPage() {
                             {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                           </Button>
                         </div>
+                        <PasswordStrengthMeter password={signUpData.password} />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="confirmPassword">Confirm Password</Label>
@@ -668,75 +642,8 @@ export default function LandingPage() {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="mt-24 border-t bg-white/80 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-12">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                  <Sparkles className="h-5 w-5 text-white" />
-                </div>
-                <span className="font-bold text-lg">AI Builder</span>
-              </div>
-              <p className="text-gray-600">
-                Transform your ideas into production-ready code with intelligent AI assistance.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4">Product</h3>
-              <ul className="space-y-2 text-gray-600">
-                <li>Features</li>
-                <li>Pricing</li>
-                <li>Documentation</li>
-                <li>API</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4">Company</h3>
-              <ul className="space-y-2 text-gray-600">
-                <li>About</li>
-                <li>Blog</li>
-                <li>Careers</li>
-                <li>Contact</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4">Support</h3>
-              <ul className="space-y-2 text-gray-600">
-                <li>Help Center</li>
-                <li>Community</li>
-                <li>Status</li>
-                <li>Privacy</li>
-              </ul>
-            </div>
-          </div>
-
-          {/* <div className="border-t mt-8 pt-8 text-center text-gray-600">
-            <p>&copy; 2024 AI Builder. All rights reserved.</p>
-          </div> */}
-
-          <div className="border-t mt-8 pt-8 text-center text-gray-600">
-          <p>&copy; 2024 AI Builder. All rights reserved.</p>
-          <p className="text-sm"> {/* Added text-sm here */}
-            Last updated:{" "}
-            {new Date().toLocaleDateString("en-US", {
-              weekday: "long",
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-            {" "}
-            {new Date().toLocaleTimeString("en-US", {
-              hour: "2-digit",
-              minute: "2-digit",
-              hour12: true,
-            })}
-          </p>
-        </div>
-
-        </div>
-      </footer>
+      <LandingFooter />
+      
     </div>
   )
 }

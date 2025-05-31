@@ -278,49 +278,6 @@ export function FeatureCard({ title, description }: FeatureCardProps) {
               </p>
             </div>
 
-            {/* <Tabs value={activeTab} 
-            onValueChange={setActiveTab} 
-            className="w-full my-12 sm:my-6 lg:my-8" 
-            >
-
-              <TabsList className="grid w-full grid-cols-3 mb-8">
-                <TabsTrigger value="form" className="flex items-center gap-2">
-                  <FileText className="h-4 w-4" />
-                  Form Builder
-                </TabsTrigger>
-                <TabsTrigger value="prompt" className="flex items-center gap-2">
-                  <Sparkles className="h-4 w-4" />
-                  Generated Prompt
-                </TabsTrigger>
-                <TabsTrigger value="code" className="flex items-center gap-2">
-                  <Code className="h-4 w-4" />
-                  Generated Code
-                </TabsTrigger>
-              </TabsList> */}
-
-
-              {/* <Tabs
-  value={activeTab}
-  onValueChange={setActiveTab}
-  className="w-full my-12 sm:my-6 lg:my-8"
->
-  <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 gap-2 mb-24 mt-24 sm:mb-8 sm:mt-8">
-    <TabsTrigger value="form" className="flex items-center justify-center gap-2 py-3 sm:py-2">
-      <FileText className="h-4 w-4" />
-      Form Builder
-    </TabsTrigger>
-    <TabsTrigger value="prompt" className="flex items-center justify-center gap-2 py-3 sm:py-2">
-      <Sparkles className="h-4 w-4" />
-      Generated Prompt
-    </TabsTrigger>
-    <TabsTrigger value="code" className="flex items-center justify-center gap-2 py-3 sm:py-2">
-      <Code className="h-4 w-4" />
-      Generated Code
-    </TabsTrigger>
-  </TabsList> */}
-
-
-
           <Tabs
           value={activeTab}
           onValueChange={setActiveTab}
@@ -795,34 +752,6 @@ export function FeatureCard({ title, description }: FeatureCardProps) {
 
               <TabsContent value="prompt" className="space-y-6">
                 <Card className={cn(darkMode ? "bg-gray-800 border-gray-700" : "bg-white")}>
-                 
-                  {/* <CardHeader>
-                    <CardTitle className="flex items-center justify-between">
-                      <span>Generated Prompt</span>
-                      <div className="flex gap-2">
-                        <Button variant="outline" size="sm" onClick={() => copyToClipboard(generatedPrompt)}>
-                          <Copy className="h-4 w-4 mr-2" />
-                          Copy
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => {
-                            const blob = new Blob([generatedPrompt], { type: "text/plain" })
-                            const url = URL.createObjectURL(blob)
-                            const a = document.createElement("a")
-                            a.href = url
-                            a.download = "generated-prompt.txt"
-                            a.click()
-                          }}
-                        >
-                          <Download className="h-4 w-4 mr-2" />
-                          Download
-                        </Button>
-                      </div>
-                    </CardTitle>
-                  </CardHeader> */}
-
 
                   <CardHeader>
                   {/* <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center justify-between"> */}
@@ -876,32 +805,6 @@ export function FeatureCard({ title, description }: FeatureCardProps) {
               <TabsContent value="code" className="space-y-6">
                 <Card className={cn(darkMode ? "bg-gray-800 border-gray-700" : "bg-white")}>
                   
-                  {/* <CardHeader>
-                    <CardTitle className="flex items-center justify-between">
-                      <span>Generated Code</span>
-                      <div className="flex gap-2">
-                        <Button variant="outline" size="sm" onClick={() => copyToClipboard(generatedCode)}>
-                          <Copy className="h-4 w-4 mr-2" />
-                          Copy All
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => {
-                            const blob = new Blob([generatedCode], { type: "text/plain" })
-                            const url = URL.createObjectURL(blob)
-                            const a = document.createElement("a")
-                            a.href = url
-                            a.download = "generated-code.txt"
-                            a.click()
-                          }}
-                        >
-                          <Download className="h-4 w-4 mr-2" />
-                        </Button>
-                      </div>
-                    </CardTitle>
-                  </CardHeader> */}
-
                   <CardHeader>
                   <CardTitle className="flex flex-col sm:flex-row sm:items-center justify-between">
                     <span>Generated Code</span>

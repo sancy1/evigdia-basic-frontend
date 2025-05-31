@@ -363,30 +363,6 @@ export function Header() {
               </p>
             </div>
 
-            {/* Mode Selection */}
-            {/* <div className="mb-8">
-              <Tabs value={activeMode} onValueChange={setActiveMode} className="w-full">
-                <TabsList className="grid w-full grid-cols-4 mb-8">
-                  <TabsTrigger value="structure" className="flex items-center gap-2">
-                    <TreePine className="h-4 w-4" />
-                    Structure Only
-                  </TabsTrigger>
-                  <TabsTrigger value="snippets" className="flex items-center gap-2">
-                    <FileCode className="h-4 w-4" />
-                    With Snippets
-                  </TabsTrigger>
-                  <TabsTrigger value="fullcode" className="flex items-center gap-2">
-                    <Code className="h-4 w-4" />
-                    Full Code
-                  </TabsTrigger>
-                  <TabsTrigger value="selective" className="flex items-center gap-2">
-                    <Filter className="h-4 w-4" />
-                    Selective View
-                  </TabsTrigger>
-                </TabsList> */}
-
-
-
                 {/* Mode Selection */}
                 <div className="mb-8"> {/* This div has a mb-8, we'll keep that for now */}
                   <Tabs value={activeMode} onValueChange={setActiveMode} className="w-full">
