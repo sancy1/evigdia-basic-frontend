@@ -130,3 +130,84 @@ export const verifyEmail = async (token: string): Promise<ApiResponse> => {
   }
 };
 
+
+
+
+
+
+// lib/api/auth.ts
+
+// RESET PASSWORD ----------------------------------------------------------------------------
+
+// Add these functions to your existing auth.ts file
+
+export const requestPasswordReset = async (email: string): Promise<ApiResponse> => {
+  try {
+    const response = await fetch(`${BASE_API_URL}${process.env.NEXT_PUBLIC_REQUEST_PASSWORD_RESET_ENDPOINT}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to request password reset');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Password reset request error:', error);
+    throw error;
+  }
+};
+
+export const validateResetToken = async (token: string, userId: string): Promise<ApiResponse> => {
+  try {
+    const response = await fetch(`${BASE_API_URL}${process.env.NEXT_PUBLIC_VALIDATE_RESET_TOKEN_ENDPOINT}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, userId }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Invalid or expired reset token');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Token validation error:', error);
+    throw error;
+  }
+};
+
+export const resetPassword = async (
+  token: string,
+  userId: string,
+  newPassword: string,
+  confirmNewPassword: string
+): Promise<ApiResponse> => {
+  try {
+    const response = await fetch(`${BASE_API_URL}${process.env.NEXT_PUBLIC_RESET_PASSWORD_ENDPOINT}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, userId, newPassword, confirmNewPassword }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to reset password');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Password reset error:', error);
+    throw error;
+  }
+};

@@ -1,8 +1,19 @@
-prompt-builder/
+evigdia-basic-frontend/
 │   ├── app/
+│   │   ├── admin/
+│   │   │   └── register/
+│   │   │       └── page.tsx
+│   │   ├── api/
+│   │   ├── auth/
+│   │   │   ├── registration-success/
+│   │   │   │   └── page.tsx
+│   │   │   ├── verification-success/
+│   │   │   │   └── page.tsx
+│   │   │   └── verify-email/
+│   │   │       └── page.tsx
 │   │   ├── codemap-studio/
 │   │   │   └── page.tsx
-│   │   ├── landing/
+│   │   ├── dashboard/
 │   │   │   └── page.tsx
 │   │   ├── prompt-builder/
 │   │   │   └── page.tsx
@@ -10,8 +21,14 @@ prompt-builder/
 │   │   │   └── page.tsx
 │   │   ├── globals.css
 │   │   ├── layout.tsx
+│   │   ├── old-root-page.tsx
 │   │   └── page.tsx
 │   ├── components/
+│   │   ├── auth/
+│   │   │   └── PasswordStrengthMeter.tsx
+│   │   ├── layout/
+│   │   │   ├── footer.tsx
+│   │   │   └── header.tsx
 │   │   ├── ui/
 │   │   │   ├── accordion.tsx
 │   │   │   ├── alert-dialog.tsx
@@ -63,8 +80,13 @@ prompt-builder/
 │   │   │   ├── tooltip.tsx
 │   │   │   ├── use-mobile.tsx
 │   │   │   └── use-toast.ts
+│   │   ├── LastUpdatedDisplay.tsx
+│   │   ├── app-header.tsx
+│   │   ├── app-sidebar.tsx
 │   │   └── theme-provider.tsx
 │   ├── lib/
+│   │   ├── api/
+│   │   │   └── auth.ts
 │   │   └── utils.ts
 │   ├── public/
 │   │   ├── placeholder-logo.png
@@ -74,16 +96,4 @@ prompt-builder/
 │   │   └── placeholder.svg
 │   ├── styles/
 │   │   └── globals.css
-│   ├── components.json
-│   ├── next.config.mjs
-│   └── tailwind.config.ts
-
-
-==================================================================
-DASHBOARD PROMPT
-
-
--------------------------------------------------------------------
-
-
-
+│   └── .env

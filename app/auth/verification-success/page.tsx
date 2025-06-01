@@ -16,7 +16,7 @@ export default function VerificationSuccess() {
       setCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(timer)
-          router.push('/landing')
+          router.push('/')
           return 0
         }
         return prev - 1
@@ -37,7 +37,7 @@ export default function VerificationSuccess() {
           <p>Congratulations! Your email has been verified.</p>
           <p>Redirecting to login in {countdown} seconds...</p>
           <Button 
-            onClick={() => router.push('/landing')}
+            onClick={() => router.push('/')}
             className="w-full"
           >
             Go to Login Now

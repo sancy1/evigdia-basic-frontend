@@ -29,10 +29,10 @@ export function LandingHeader() {
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <Button variant="ghost" onClick={() => router.push('/landing?auth=signin')}>
+            <Button variant="ghost" onClick={() => router.push('/?auth=signin')}>
               Sign In
             </Button>
-            <Button onClick={() => router.push('/landing?auth=signup')}>Get Started</Button>
+            <Button onClick={() => router.push('/?auth=signup')}>Get Started</Button>
           </div>
         </div>
       </div>

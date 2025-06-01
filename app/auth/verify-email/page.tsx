@@ -38,7 +38,7 @@ export default function VerifyEmailPage() {
       }, 1000);
     } else if (verificationStatus === "success" && countdown === 0) {
       // Redirect to landing page after countdown
-      router.push("/landing");
+      router.push("/");
     }
     return () => clearTimeout(timer); // Cleanup the timer
   }, [countdown, verificationStatus, router]);
@@ -181,7 +181,7 @@ export default function VerifyEmailPage() {
                   {isResending ? "Sending..." : "Resend Verification Email"}
                 </Button>
                 <div className="text-center text-sm">
-                  <Link href="/landing" className="text-blue-600 hover:underline">
+                  <Link href="/" className="text-blue-600 hover:underline">
                     Return to login page
                   </Link>
                 </div>
@@ -214,7 +214,7 @@ export default function VerifyEmailPage() {
                   You will be automatically redirected to the login page in {countdown} seconds.
                 </p>
                 <div className="flex flex-col space-y-2">
-                  <Link href="/landing">
+                  <Link href="/">
                     <Button className="w-full">Go to Login Now</Button>
                   </Link>
                 </div>
