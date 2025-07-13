@@ -13,6 +13,7 @@ import { LandingFooter } from "@/components/layout/footer"
 import Link from "next/link"
 
 
+
 import {
   Sparkles,
   Bot,
@@ -244,7 +245,7 @@ export default function LandingPage() {
               </Badge>
               <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
                 Build Apps with{" "}
-                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                <span className="text-purple-600 dark:text-purple-400 bg-clip-text text-purple">
                   AI Precision
                 </span>
               </h1>
@@ -257,7 +258,7 @@ export default function LandingPage() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-blue-600 to-purple-600"
+                className="bg-purple-600"
                 onClick={() => setAuthMode("signup")}
               >
                 Start Building Free

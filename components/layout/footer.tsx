@@ -3,6 +3,7 @@
 
 import { Sparkles } from "lucide-react"
 import LastUpdatedDisplay from '@/components/LastUpdatedDisplay';
+import { UniqueLogo } from "@/components/unique-logo" 
 
 export function LandingFooter() {
   return (
@@ -11,9 +12,10 @@ export function LandingFooter() {
         <div className="grid md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+              {/* <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                 <Sparkles className="h-5 w-5 text-white" />
-              </div>
+              </div> */}
+               <UniqueLogo /> 
               <span className="font-bold text-lg">AI Builder</span>
             </div>
             <p className="text-gray-600">
@@ -51,21 +53,7 @@ export function LandingFooter() {
 
         <div className="border-t mt-8 pt-8 text-center text-gray-600">
           <p>&copy; 2024 AI Builder. All rights reserved.</p>
-          <p className="text-sm">
-            Last updated:{" "}
-            {new Date().toLocaleDateString("en-US", {
-              weekday: "long",
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-            {" "}
-            {new Date().toLocaleTimeString("en-US", {
-              hour: "2-digit",
-              minute: "2-digit",
-              hour12: true,
-            })}
-          </p>
+          
         </div>
       </div>
     </footer>
